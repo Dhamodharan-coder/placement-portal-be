@@ -273,14 +273,13 @@ router.post("/interview-shortlist",authMiddleware,async(req,res)=>{
         const {shortlistresult,userid,applicationid} = req.body
 
        
-        const userdetail = await Interviewfinal.find( {
+        const userdetail = await Interviewfinal.find({
             $and: [
-                {"interviewalldetails.all_lists.applicationdata._id":applicationid},
-                {"interviewalldetails.all_lists.userid":userid},
-            
+                { "interviewalldetails.all_lists.applicationdata._id": applicationid },  // Correct path for application ID
+                { "interviewalldetails.all_lists.userdetails.userid": userid }            // Correct path for user ID
             ]
-          })
-.select("all_lists.applicationdata all_lists.userdetails all_lists.userid");
+        }).select("interviewalldetails.all_lists.applicationdata interviewalldetails.all_lists.userdetails interviewalldetails.all_lists.userid");
+        
 const shortlistdetails = {
     shortliststatus:shortlistresult,
     interviewalldetails: userdetail,
