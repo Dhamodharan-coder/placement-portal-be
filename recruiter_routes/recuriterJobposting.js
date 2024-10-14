@@ -295,7 +295,7 @@ const shortlistdetails = {
 router.get("/interview-shortlist",authMiddleware,async (req,res)=>{
     try {
         // const applications = await Applications.find({});
-        const applications = await Shortlist.find({ "interviewalldetails.all_lists.applicationdata.recruiterid": req.user.id }).sort({ "createdAt": -1 });   
+        const applications = await Shortlist.find({ "interviewalldetails.interviewalldetails.all_lists.applicationdata.recruiterid": req.user.id }).sort({ "createdAt": -1 });   
         // const jobpostingDetails = await Jobpostings.findById(req.user.id); // req.user.id should be set by your authMiddleware
         if (!applications) {
             return res.status(404).json({ error: "shortlist not found" });
