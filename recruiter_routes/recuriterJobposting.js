@@ -270,8 +270,17 @@ router.get("/interview-link",authMiddleware,async (req,res)=>{
 
 router.post("/interview-shortlist",authMiddleware,async(req,res)=>{
     try {
-        const {shortlistresult} = req.body
-        const userdetail = await Interviewfinal.find({"interviewalldetails.all_lists.applicationdata._id":req.user.id}).select("all_lists.applicationdata all_lists.userdetails all_lists.userid");
+        const {shortlistresult,userid,applicationid} = req.body
+
+       
+        const userdetail = await Interviewfinal.find( {
+            $and: [
+                {"interviewalldetails.all_lists.applicationdata._id":applicationid},
+                {"interviewalldetails.all_lists.userid":userid},
+            
+            ]
+          })
+.select("all_lists.applicationdata all_lists.userdetails all_lists.userid");
 const shortlistdetails = {
     shortliststatus:shortlistresult,
     interviewalldetails: userdetail,
